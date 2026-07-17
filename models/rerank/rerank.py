@@ -1,0 +1,97 @@
+from typing import Optional
+
+import httpx
+from dify_plugin.entities.model.rerank import RerankDocument, RerankResult
+from dify_plugin.errors.model import (
+    CredentialsValidateFailedError,
+    InvokeAuthorizationError,
+    InvokeBadRequestError,
+    InvokeConnectionError,
+    InvokeError,
+    InvokeRateLimitError,
+    InvokeServerUnavailableError,
+)
+from dify_plugin.interfaces.model.rerank_model import RerankModel
+
+DEFAULT_ENDPOINT = "https://api.ecohash.com/v1"
+
+
+class EcoHashRerankModel(RerankModel):
+    """EcoHash reranker (OpenAI-compatible /v1/rerank)."""
+
+    def _invoke(
+        self,
+        model: str,
+        credentials: dict,
+        query: str,
+        docs: list[str],
+        score_threshold: Optional[float] = None,
+        top_n: Optional[int] = None,
+        user: Optional[str] = None,
+    ) -> RerankResult:
+        if len(docs) == 0:
+            return RerankResult(model=model, docs=[])
+
+        base_url = DEFAULT_ENDPOINT
+        payload: dict = {
+            "model": model,
+            "query": query,
+            "documents": docs,
+            "return_documents": True,
+        }
+        if top_n is not None:
+            payload["top_n"] = top_n
+
+        response = httpx.post(
+            base_url + "/rerank",
+            json=payload,
+            headers={"Authorization": f"Bearer {credentials.get('api_key')}"},
+            timeout=60,
+        )
+        response.raise_for_status()
+        results = response.json()
+
+        rerank_documents: list[RerankDocument] = []
+        for result in results.get("results", []):
+            index = result["index"]
+            document = result.get("document")
+            if isinstance(document, dict):
+                text = document.get("text", docs[index])
+            elif isinstance(document, str):
+                text = document
+            else:
+                text = docs[index]
+            score = result.get("relevance_score", result.get("score", 0.0))
+            if score_threshold is None or score >= score_threshold:
+                rerank_documents.append(RerankDocument(index=index, text=text, score=score))
+
+        return RerankResult(model=model, docs=rerank_documents)
+
+    def validate_credentials(self, model: str, credentials: dict) -> None:
+        try:
+            self._invoke(
+                model=model,
+                credentials=credentials,
+                query="What is the capital of the United States?",
+                docs=[
+                    "Carson City is the capital city of the American state of Nevada.",
+                    "Washington, D.C. is the capital of the United States.",
+                ],
+                score_threshold=None,
+            )
+        except httpx.HTTPStatusError as ex:
+            raise CredentialsValidateFailedError(
+                f"EcoHash reranker credential validation failed (HTTP {ex.response.status_code})."
+            )
+        except Exception as ex:
+            raise CredentialsValidateFailedError(str(ex))
+
+    @property
+    def _invoke_error_mapping(self) -> dict[type[InvokeError], list[type[Exception]]]:
+        return {
+            InvokeConnectionError: [httpx.ConnectError, httpx.ConnectTimeout],
+            InvokeServerUnavailableError: [httpx.RemoteProtocolError, httpx.ReadTimeout],
+            InvokeRateLimitError: [],
+            InvokeAuthorizationError: [httpx.HTTPStatusError],
+            InvokeBadRequestError: [httpx.RequestError],
+        }

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 160" width="512" height="160" role="img" aria-label="EcoHash">
+  <g transform="translate(16,16) scale(0.5)" fill="#4C1D95">
+    <path d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,120,47.65,76,128,32l80.35,44Zm8,99.64V133.83l80-43.78v85.76Z"/>
+  </g>
+  <text x="150" y="98" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="700" fill="#4C1D95">EcoHash</text>
+</svg>

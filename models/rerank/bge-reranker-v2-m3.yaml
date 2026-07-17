@@ -1,0 +1,11 @@
+model: bge-reranker-v2-m3
+label:
+  en_US: BGE-Reranker-V2-M3
+  zh_Hans: BGE-Reranker-V2-M3
+model_type: rerank
+model_properties:
+  context_size: 8192
+pricing:
+  input: "0.03"
+  unit: "0.000001"
+  currency: USD

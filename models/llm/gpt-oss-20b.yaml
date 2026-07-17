@@ -1,0 +1,25 @@
+model: gpt-oss-20b
+label:
+  en_US: gpt-oss-20b
+  zh_Hans: gpt-oss-20b
+model_type: llm
+model_properties:
+  mode: chat
+  context_size: 128000
+parameter_rules:
+  - name: temperature
+    use_template: temperature
+  - name: top_p
+    use_template: top_p
+  - name: max_tokens
+    use_template: max_tokens
+    min: 1
+    max: 128000
+    default: 1024
+  - name: frequency_penalty
+    use_template: frequency_penalty
+pricing:
+  input: "0.05"
+  output: "0.18"
+  unit: "0.000001"
+  currency: USD

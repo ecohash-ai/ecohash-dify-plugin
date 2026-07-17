@@ -1,0 +1,27 @@
+model: gemma-4-31b-it
+label:
+  en_US: Gemma-4-31B-IT
+  zh_Hans: Gemma-4-31B-IT
+model_type: llm
+features:
+  - vision
+model_properties:
+  mode: chat
+  context_size: 32768
+parameter_rules:
+  - name: temperature
+    use_template: temperature
+  - name: top_p
+    use_template: top_p
+  - name: max_tokens
+    use_template: max_tokens
+    min: 1
+    max: 32768
+    default: 1024
+  - name: frequency_penalty
+    use_template: frequency_penalty
+pricing:
+  input: "0.5"
+  output: "0.5"
+  unit: "0.000001"
+  currency: USD
