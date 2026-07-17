@@ -2,7 +2,32 @@
 
 > Status legend: ✅ pass · ❌ fail · ⚠️ partial/known-limitation · ⏳ pending.
 > Reproduce: `export ECOHASH_API_KEY=eco_xxx` then
-> `python3 tests/smoke_test.py` (raw API) and `python3 tests/e2e_plugin.py` (plugin code).
+> `python3 tests/smoke_test.py` (raw API), `python3 tests/e2e_plugin.py` (plugin code),
+> and `python3 tests/test_error_mapping.py` (offline, no key needed).
+
+## Revision 2026-07-17 — acceptance-review fixes, retested live
+
+All plugin code paths retested after the review fixes (rerank error mapping, provider
+validation via `GET /v1/models`, `X-EcoHash-Source` attribution header, +MiniMax-M2.7
+and +GLM-5-Turbo, `scripts/sync_models.py`).
+
+| Check | Result |
+|-------|--------|
+| Raw API smoke test (`smoke_test.py`) | ✅ 13/13 — credential check, invalid key→401, 3 LLMs stream+non-stream, tool calling, JSON output, usage tokens, embeddings, rerank |
+| Plugin-code E2E (`e2e_plugin.py`, dify_plugin 0.9.1) | ✅ 6/6 |
+| Offline error mapping (`test_error_mapping.py`, simulated HTTP) | ✅ 14/14 — rerank 401/403→auth, 429→rate-limit, 5xx→server-unavailable, 400→bad-request, 200 parses; timeout mapping; provider 401/403/500/200/empty-key |
+| Provider validation via `GET /v1/models` (no inference) | ✅ valid key accepted; invalid key → `CredentialsValidateFailedError` (HTTP 401), live |
+| New models live via plugin code | ✅ MiniMax-M2.7 (`OK`, 89 tok), GLM-5-Turbo (`OK`, 93 tok), non-stream |
+| Catalog sync (`scripts/sync_models.py --check`) | ✅ 20/20 predefined (llm:14, embedding:5, rerank:1), no drift |
+| Package rebuild (CLI 0.6.4) | ✅ 38 files; no tests/, scripts/, .env*, .git, caches |
+
+Note: `smoke_test.py` non-stream budget raised 16→256 tokens — reasoning models
+(GLM-5.2) spend tokens on thinking before output; 16 produced an empty-content
+false failure. In-Dify install of this revision (self-hosted/Cloud) still pending.
+
+---
+
+# Initial report — 2026-07-16
 
 ## Environment
 
@@ -62,11 +87,11 @@ streaming, embeddings, rerank, invalid-key rejection, all through the plugin cla
 
 | Scenario | Expected | Observed |
 |----------|----------|----------|
-| Invalid API key | 401, clear message | ✅ 401 → CredentialsValidateFailedError |
-| Rate limit (429) | 429, clear message | ⏳ not triggered this run; mapped by SDK to InvokeRateLimitError |
-| Timeout | connection/server error, retryable | ⏳ not triggered; httpx timeout + SDK mapping in place |
-| 5xx | server-unavailable, retryable | ⏳ not triggered; mapped to InvokeServerUnavailableError |
-| Insufficient credit (402) | 402, clear message | ⏳ not triggered (funded test key) |
+| Invalid API key | 401, clear message | ✅ 401 → CredentialsValidateFailedError (live) |
+| Rate limit (429) | 429, clear message | ✅ simulated 2026-07-17: rerank+SDK map to InvokeRateLimitError (`test_error_mapping.py`); live trigger still ⏳ |
+| Timeout | connection/server error, retryable | ✅ simulated 2026-07-17: ConnectTimeout→InvokeConnectionError, ReadTimeout→InvokeServerUnavailableError; live trigger still ⏳ |
+| 5xx | server-unavailable, retryable | ✅ simulated 2026-07-17: 500/503 → InvokeServerUnavailableError; live trigger still ⏳ |
+| Insufficient credit (402) | 402, clear message | ⏳ not triggered (funded test key); maps to InvokeBadRequestError with body text |
 
 ## Known limitations
 

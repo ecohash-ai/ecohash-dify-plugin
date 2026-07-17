@@ -1,6 +1,7 @@
 .git/
 tests/
 scripts/
+dist/
 .env.example
 __pycache__/
 *.pyc

@@ -68,7 +68,8 @@ def test_chat_nonstream(model):
         resp = _req("/chat/completions", {
             "model": model,
             "messages": [{"role": "user", "content": "Reply with exactly: OK"}],
-            "max_tokens": 16, "stream": False,
+            # generous budget: reasoning models (e.g. GLM-5.2) spend tokens on thinking first
+            "max_tokens": 256, "stream": False,
         })
         body = json.loads(resp.read())
         usage = body.get("usage", {})
