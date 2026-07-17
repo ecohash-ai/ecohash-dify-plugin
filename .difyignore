@@ -1,5 +1,6 @@
 .git/
 tests/
+scripts/
 .env.example
 __pycache__/
 *.pyc

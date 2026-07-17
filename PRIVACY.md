@@ -31,7 +31,7 @@ terms:
 
 ## Contact
 
-For privacy questions about the EcoHash platform, contact EcoHash support (see the
-`#ecolink-support` Slack channel or <https://docs.ecohash.com>).
+For privacy questions about this plugin or the EcoHash platform, open an issue at
+<https://github.com/ecohash-ai/ecohash-dify-plugin/issues> or see <https://docs.ecohash.com>.
 
 *Last updated: 2026-07-17*

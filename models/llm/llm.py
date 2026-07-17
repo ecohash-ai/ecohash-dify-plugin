@@ -55,6 +55,8 @@ class EcoHashLargeLanguageModel(OAICompatLargeLanguageModel):
     def _add_custom_parameters(credentials: dict) -> None:
         credentials["mode"] = "chat"
         credentials["endpoint_url"] = DEFAULT_ENDPOINT
+        # Marks requests as coming from the Dify plugin for usage-source attribution.
+        credentials["extra_headers"] = {"X-EcoHash-Source": "dify-plugin"}
 
     def _add_function_call(self, model: str, credentials: dict) -> None:
         model_schema = self.get_model_schema(model, credentials)

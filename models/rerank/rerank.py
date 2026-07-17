@@ -45,10 +45,13 @@ class EcoHashRerankModel(RerankModel):
         response = httpx.post(
             base_url + "/rerank",
             json=payload,
-            headers={"Authorization": f"Bearer {credentials.get('api_key')}"},
+            headers={
+                "Authorization": f"Bearer {credentials.get('api_key')}",
+                "X-EcoHash-Source": "dify-plugin",
+            },
             timeout=60,
         )
-        response.raise_for_status()
+        self._raise_invoke_error(response)
         results = response.json()
 
         rerank_documents: list[RerankDocument] = []
@@ -67,6 +70,22 @@ class EcoHashRerankModel(RerankModel):
 
         return RerankResult(model=model, docs=rerank_documents)
 
+    @staticmethod
+    def _raise_invoke_error(response: httpx.Response) -> None:
+        """Map HTTP error statuses to the matching InvokeError so Dify shows
+        an accurate message (auth vs rate limit vs server error)."""
+        status = response.status_code
+        if status < 400:
+            return
+        detail = f"EcoHash rerank API returned HTTP {status}: {response.text[:200]}"
+        if status in (401, 403):
+            raise InvokeAuthorizationError(detail)
+        if status == 429:
+            raise InvokeRateLimitError(detail)
+        if status >= 500:
+            raise InvokeServerUnavailableError(detail)
+        raise InvokeBadRequestError(detail)
+
     def validate_credentials(self, model: str, credentials: dict) -> None:
         try:
             self._invoke(
@@ -79,10 +98,8 @@ class EcoHashRerankModel(RerankModel):
                 ],
                 score_threshold=None,
             )
-        except httpx.HTTPStatusError as ex:
-            raise CredentialsValidateFailedError(
-                f"EcoHash reranker credential validation failed (HTTP {ex.response.status_code})."
-            )
+        except InvokeError as ex:
+            raise CredentialsValidateFailedError(str(ex))
         except Exception as ex:
             raise CredentialsValidateFailedError(str(ex))
 
@@ -92,6 +109,6 @@ class EcoHashRerankModel(RerankModel):
             InvokeConnectionError: [httpx.ConnectError, httpx.ConnectTimeout],
             InvokeServerUnavailableError: [httpx.RemoteProtocolError, httpx.ReadTimeout],
             InvokeRateLimitError: [],
-            InvokeAuthorizationError: [httpx.HTTPStatusError],
+            InvokeAuthorizationError: [],
             InvokeBadRequestError: [httpx.RequestError],
         }

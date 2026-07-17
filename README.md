@@ -1,13 +1,13 @@
 # EcoHash
 
-Read this in other languages: [中文](./readme/README_zh_Hans.md)
+Documentation in other languages: [Chinese (Simplified)](./readme/README_zh_Hans.md)
 
 [EcoHash](https://ecohash.com) provides an OpenAI-compatible AI inference platform running on its own GPU cloud, with hosted LLM, text embedding, and rerank models that can be used directly from Dify.
 
 ## Features
 
 - Provides LLM (chat & vision), text-embedding, and rerank models in Dify.
-- Includes predefined LLM models such as GLM-5.2, DeepSeek-V4-Flash, Kimi-K2.6, Qwen3-235B-A22B, qwen3-coder-30b-a3b-instruct, and qwen3-vl-8b-instruct.
+- Includes predefined LLM models such as GLM-5.2, GLM-5-Turbo, DeepSeek-V4-Flash, Kimi-K2.6, MiniMax-M2.7, Qwen3-235B-A22B, qwen3-coder-30b-a3b-instruct, and qwen3-vl-8b-instruct.
 - Includes predefined text embedding models such as jina-embeddings-v3, jina-embeddings-v4, and the qwen3-embedding series, plus the bge-reranker-v2-m3 reranker for RAG pipelines.
 - Supports predefined model and customizable model configuration — add any model id from the [EcoHash model catalog](https://docs.ecohash.com/platform-models/model-catalog) with just your API key.
 
@@ -34,3 +34,4 @@ This plugin sends the inputs required by the selected operation to the EcoHash A
 
 - Source repository: <https://github.com/ecohash-ai/ecohash-dify-plugin>
 - Issues and questions: [GitHub Issues](https://github.com/ecohash-ai/ecohash-dify-plugin/issues) or the [EcoHash docs](https://docs.ecohash.com)
+- Maintenance: the predefined model list is kept in sync with the live EcoHash catalog via `scripts/sync_models.py` (`--check` reports drift); catalog additions ship as patch releases of this plugin, and models not yet predefined can always be added immediately as customizable models.
