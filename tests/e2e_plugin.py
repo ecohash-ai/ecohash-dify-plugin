@@ -57,7 +57,7 @@ except Exception as e:
 
 # 3. streaming chat through the plugin
 try:
-    gen = llm._invoke("GLM-5.2", dict(CREDS),
+    gen = llm._invoke("llama-3.1-8b-instruct", dict(CREDS),
                       [UserPromptMessage(content="Count to three.")],
                       {"max_tokens": 64}, stream=True)
     pieces, last_usage = [], None

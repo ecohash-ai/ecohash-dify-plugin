@@ -5,7 +5,7 @@
 ## Features
 
 - Provides LLM (chat & vision), text-embedding, and rerank models in Dify.
-- Includes predefined LLM models such as GLM-5.2, GLM-5-Turbo, DeepSeek-V4-Flash, Kimi-K2.6, MiniMax-M2.7, Qwen3-235B-A22B, qwen3-coder-30b-a3b-instruct, and qwen3-vl-8b-instruct.
+- Includes predefined LLM models such as qwen3.5-35b-a3b, qwen3-coder-30b-a3b-instruct, qwen3-vl-8b-instruct, qwen3-omni-30b-a3b-instruct, gemma-4-31b-it, gpt-oss-20b, llama-3.1-8b-instruct, and qwen2.5-7b-instruct.
 - Includes predefined text embedding models such as jina-embeddings-v3, jina-embeddings-v4, and the qwen3-embedding series, plus the bge-reranker-v2-m3 reranker for RAG pipelines.
 - Supports predefined model and customizable model configuration — add any model id from the [EcoHash model catalog](https://docs.ecohash.com/platform-models/model-catalog) with just your API key.
 

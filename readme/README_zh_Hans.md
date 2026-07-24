@@ -5,7 +5,7 @@
 ## 功能
 
 - 在 Dify 中提供 LLM（对话与视觉）、文本嵌入和重排序模型。
-- 内置预定义 LLM 模型，如 GLM-5.2、GLM-5-Turbo、DeepSeek-V4-Flash、Kimi-K2.6、MiniMax-M2.7、Qwen3-235B-A22B、qwen3-coder-30b-a3b-instruct、qwen3-vl-8b-instruct。
+- 内置预定义 LLM 模型，如 qwen3.5-35b-a3b、qwen3-coder-30b-a3b-instruct、qwen3-vl-8b-instruct、qwen3-omni-30b-a3b-instruct、gemma-4-31b-it、gpt-oss-20b、llama-3.1-8b-instruct、qwen2.5-7b-instruct。
 - 内置预定义文本嵌入模型，如 jina-embeddings-v3、jina-embeddings-v4、qwen3-embedding 系列，以及用于 RAG 的 bge-reranker-v2-m3 重排序模型。
 - 支持预定义模型和自定义模型两种配置方式——只需 API Key，即可添加 [EcoHash 模型目录](https://docs.ecohash.com/platform-models/model-catalog)中的任意模型 ID。
 

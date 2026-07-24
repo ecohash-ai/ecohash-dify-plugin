@@ -28,8 +28,8 @@ model_credential_schema:
       en_US: Model Name
       zh_Hans: 模型名称
     placeholder:
-      en_US: Enter the model id, e.g. GLM-5.2
-      zh_Hans: 输入模型 ID，例如 GLM-5.2
+      en_US: Enter the model id, e.g. qwen3-vl-8b-instruct
+      zh_Hans: 输入模型 ID，例如 qwen3-vl-8b-instruct
   credential_form_schemas:
     - label:
         en_US: API Key
