@@ -1,8 +1,6 @@
 # EcoHash
 
-其他语言：[English](../README.md)
-
-[EcoHash](https://ecohash.com) 提供基于自有 GPU 云的 OpenAI 兼容 AI 推理平台，托管的 LLM、文本嵌入和重排序模型可以直接在 Dify 中使用。
+[EcoHash](https://ecohash.com) 提供 RTX Pro 6000 GPU 云及面向开源模型的 OpenAI 兼容推理 API，覆盖文本、视觉、图像、语音和视频。本 Dify Model Provider 插件当前接入其中的对话与视觉 LLM、文本嵌入和重排序能力。
 
 ## 功能
 

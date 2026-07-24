@@ -1,8 +1,6 @@
 # EcoHash
 
-Documentation in other languages: [Chinese (Simplified)](./readme/README_zh_Hans.md)
-
-[EcoHash](https://ecohash.com) provides an OpenAI-compatible AI inference platform running on its own GPU cloud, with hosted LLM, text embedding, and rerank models that can be used directly from Dify.
+[EcoHash](https://ecohash.com) provides RTX Pro 6000 GPU cloud infrastructure and OpenAI-compatible inference APIs for open-source models across text, vision, image, speech, and video. This Dify Model Provider plugin currently exposes chat and vision LLMs, text embeddings, and reranking.
 
 ## Features
 

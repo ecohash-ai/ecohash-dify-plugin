@@ -13,8 +13,8 @@ label:
   en_US: EcoHash
   zh_Hans: EcoHash
 description:
-  en_US: EcoHash provides an OpenAI-compatible AI inference platform with LLM (chat & vision), text embedding, and reranker models, configurable with a single API key.
-  zh_Hans: EcoHash 提供 OpenAI 兼容的 AI 推理平台，包含 LLM（对话与视觉）、文本嵌入和重排序模型，仅需一个 API Key 即可配置。
+  en_US: Use the EcoHash OpenAI-compatible model API in Dify with a single API key, including chat and vision LLMs, text embeddings, and reranking.
+  zh_Hans: 通过一个 API Key，在 Dify 中使用 EcoHash 的 OpenAI 兼容模型 API，支持对话与视觉 LLM、文本嵌入和重排序。
 icon: icon_square.svg
 privacy: PRIVACY.md
 plugins:
@@ -26,5 +26,5 @@ resource:
     model:
       enabled: false
 type: plugin
-version: 0.0.1
+version: 0.0.2
 created_at: 2026-07-16T00:00:00.000000000+08:00
