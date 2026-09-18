@@ -11,6 +11,12 @@ Only Dify model-provider categories are synced: llm / llm_vision -> models/llm,
 embedding -> models/text_embedding, reranker -> models/rerank. Image, video and
 speech models are out of scope for a Dify model provider and are skipped.
 
+Only self-hosted models are predefined. A catalog entry with no hf_model_id is
+served through an external upstream provider; redistributing those under our own
+plugin needs the upstream reseller terms and each model license cleared first, so
+they are skipped here. Users who have access can still add them in Dify through
+the customizable-model form.
+
 Generated YAMLs take context size and pricing from the catalog; when the catalog
 has no context_length, a conservative default (32768 for LLM, 8192 otherwise) is
 used — adjust by hand if the served context differs. Dev-only; excluded from the
@@ -163,10 +169,16 @@ def main() -> int:
         catalog = json.load(resp)
 
     wanted = {}  # model_id -> catalog entry
+    skipped_external = []
     for entry in catalog:
         if entry.get("status") != "active":
             continue
-        if entry["category"] in CATEGORY_DIRS:
+        if entry["category"] not in CATEGORY_DIRS:
+            continue
+        if not entry.get("hf_model_id"):
+            skipped_external.append(entry["model_id"])
+            continue
+        if True:
             wanted[entry["model_id"]] = entry
 
     drift = False
@@ -184,6 +196,9 @@ def main() -> int:
         position.write_text(position.read_text().rstrip("\n") + f"\n- {model_id}\n")
         print(f"CREATED  {yaml_path.relative_to(ROOT)}")
 
+    if skipped_external:
+        print("SKIPPED  %d externally served model(s) (no hf_model_id): %s"
+              % (len(skipped_external), ", ".join(sorted(skipped_external))))
     for dir_name in set(CATEGORY_DIRS.values()):
         model_dir = ROOT / "models" / dir_name
         for model_id, path in existing_models(model_dir).items():

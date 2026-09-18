@@ -1,9 +1,13 @@
-model: gemma-4-31b-it
+model: qwen3.6-35b-a3b
 label:
-  en_US: Gemma-4-31B-IT
-  zh_Hans: Gemma-4-31B-IT
+  en_US: Qwen3.6-35B-A3B
+  zh_Hans: Qwen3.6-35B-A3B
 model_type: llm
 features:
+  - agent-thought
+  - tool-call
+  - multi-tool-call
+  - stream-tool-call
   - vision
 model_properties:
   mode: chat
@@ -21,7 +25,7 @@ parameter_rules:
   - name: frequency_penalty
     use_template: frequency_penalty
 pricing:
-  input: "0.5"
-  output: "0.5"
+  input: "0.4"
+  output: "0.4"
   unit: "0.000001"
   currency: USD
