@@ -6,7 +6,11 @@
 
 From the Dify Marketplace: **[EcoHash](https://marketplace.dify.ai/plugin/ecohash/ecohash)**, published by `ecohash` as plugin id `ecohash/ecohash`. In Dify, open **Plugins → Marketplace**, search for EcoHash, and click Install.
 
-To install without the Marketplace, download a `.difypkg` from [dist/](./dist) and use **Plugins → Install plugin → Local Package File** in Dify.
+To install without the Marketplace, download a `.difypkg` from [dist/](./dist) and use
+**Plugins → Install plugin → Local Package File** in Dify. A default Dify deployment
+verifies plugin signatures and rejects local packages with `bad signature`, so this path
+also needs `FORCE_VERIFYING_SIGNATURE=false` in the Dify `.env` followed by a restart of
+the `plugin_daemon` container. Marketplace installs are signed by Dify and need no change.
 
 ## Configure
 

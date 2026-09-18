@@ -7,6 +7,8 @@
 从 Dify Marketplace 安装：**[EcoHash](https://marketplace.dify.ai/plugin/ecohash/ecohash)**，发布者 `ecohash`，插件 id `ecohash/ecohash`。在 Dify 中打开 **插件 → Marketplace**，搜索 EcoHash 并安装。
 
 若不经 Marketplace 安装，可从 [dist/](../dist) 下载 `.difypkg`，在 Dify 中通过 **插件 → 安装插件 → 本地插件包** 安装。
+默认部署的 Dify 会校验插件签名，本地包会被拒绝并提示 `bad signature`，因此这条路径还需要在 Dify 的 `.env` 中设置
+`FORCE_VERIFYING_SIGNATURE=false` 并重启 `plugin_daemon` 容器。经 Marketplace 安装的包由 Dify 签名，无需改动。
 
 ## 配置
 
