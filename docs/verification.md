@@ -25,7 +25,8 @@ Results
 | Model list exposed by 0.0.3 | 14 models: 10 LLM, 3 embedding, 1 rerank |
 | Chat, `qwen3.8-27b` (new in 0.0.3) | answered; 85 tokens, $0.0000339, 0.57 s |
 | Chat, `qwen3.6-35b-a3b` (new in 0.0.3) | answered; 55 tokens, 0.38 s |
-| Reinstall the exact published artifact `dist/ecohash-0.0.3.difypkg` (sha256 `747199f3…`, built from commit 7cef8b2) | installed, 14 models exposed |
+| Reinstall the exact published artifact `dist/ecohash-0.0.3.difypkg` (sha256 `78eab19e…`, built from commit 9d5c8f1) | installed, credentials accepted, 14 models exposed |
+| Chat through a Dify app on that artifact, `qwen3-coder-30b-a3b-instruct` | answered; 25 prompt + 3 completion tokens, $0.0000034, 0.25 s |
 
 Findings
 
@@ -36,6 +37,9 @@ Findings
   The README documents the setting for anyone installing a local build.
 - `qwen3.6-35b-a3b` returns `<think>` reasoning blocks in its answer. Dify renders them
   as plain text today.
+- The shipped package carries runtime files, the READMEs, the licence, the privacy
+  policy and the changelog. `.difyignore` keeps `.gitignore`, `docs/`, `tests/`,
+  `scripts/` and `dist/` out of it.
 
 Known limits
 
