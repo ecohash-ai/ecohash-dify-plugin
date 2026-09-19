@@ -21,6 +21,11 @@ Changed
   Dify as customizable models.
 - README now links the Marketplace listing directly, documents the local package install
   path, and lists the models the plugin actually ships.
+- `manifest.yaml` now carries `repo`, `contact`, `network.domains` and
+  `meta.minimum_dify_version`, and lists `version` before `meta` as the other Marketplace
+  plugins do. The Marketplace review checks require the first two and read the version
+  with a regular expression that takes the first `version:` key in the file.
+- `httpx` now has an upper bound, matching the `dify_plugin` pin.
 
 ## 0.0.2 (2026-07-28)
 

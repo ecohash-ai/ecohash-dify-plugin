@@ -1,14 +1,7 @@
-meta:
-  arch:
-    - amd64
-    - arm64
-  runner:
-    entrypoint: main
-    language: python
-    version: "3.12"
-  version: 0.0.1
-name: ecohash
+version: 0.0.3
+type: plugin
 author: ecohash
+name: ecohash
 label:
   en_US: EcoHash
   zh_Hans: EcoHash
@@ -16,15 +9,28 @@ description:
   en_US: Use the EcoHash OpenAI-compatible model API in Dify with a single API key, including chat and vision LLMs, text embeddings, and reranking.
   zh_Hans: 通过一个 API Key，在 Dify 中使用 EcoHash 的 OpenAI 兼容模型 API，支持对话与视觉 LLM、文本嵌入和重排序。
 icon: icon_square.svg
+created_at: 2026-07-16T00:00:00.000000000+08:00
 privacy: PRIVACY.md
-plugins:
-  models:
-    - provider/ecohash.yaml
+repo: https://github.com/ecohash-ai/ecohash-dify-plugin
+contact: wangwei@ecohash.com
+network:
+  domains:
+    - api.ecohash.com
 resource:
   memory: 268435456
   permission:
     model:
       enabled: false
-type: plugin
-version: 0.0.3
-created_at: 2026-07-16T00:00:00.000000000+08:00
+plugins:
+  models:
+    - provider/ecohash.yaml
+meta:
+  version: 0.0.1
+  arch:
+    - amd64
+    - arm64
+  runner:
+    language: python
+    version: "3.12"
+    entrypoint: main
+  minimum_dify_version: 1.14.2

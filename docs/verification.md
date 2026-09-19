@@ -25,8 +25,9 @@ Results
 | Model list exposed by 0.0.3 | 14 models: 10 LLM, 3 embedding, 1 rerank |
 | Chat, `qwen3.8-27b` (new in 0.0.3) | answered; 85 tokens, $0.0000339, 0.57 s |
 | Chat, `qwen3.6-35b-a3b` (new in 0.0.3) | answered; 55 tokens, 0.38 s |
-| Reinstall the exact published artifact `dist/ecohash-0.0.3.difypkg` (sha256 `78eab19e…`, built from commit 9d5c8f1) | installed, credentials accepted, 14 models exposed |
-| Chat through a Dify app on that artifact, `qwen3-coder-30b-a3b-instruct` | answered; 25 prompt + 3 completion tokens, $0.0000034, 0.25 s |
+| Reinstall the exact published artifact `dist/ecohash-0.0.3.difypkg` (sha256 `2c3bf840…`, built from commit be608cc) | installed, credentials accepted, 14 models exposed |
+| Chat through a Dify app on that artifact, `qwen3-coder-30b-a3b-instruct` | answered; 28 tokens, $0.0000034, 0.245 s |
+| Marketplace review checks, run locally from `langgenius/dify-marketplace-toolkit` | 12 of 13 pass; see the note below on `check-version-update` |
 
 Findings
 
@@ -40,6 +41,13 @@ Findings
 - The shipped package carries runtime files, the READMEs, the licence, the privacy
   policy and the changelog. `.difyignore` keeps `.gitignore`, `docs/`, `tests/`,
   `scripts/` and `dist/` out of it.
+- `check-version-update` in the Marketplace toolkit reads the plugin version with
+  `^\s*version\s*:` and takes the first match in the file. Our manifest listed `meta`
+  first, so `meta.runner.version` (`3.12`) was read as the plugin version. The key order
+  is fixed here, and eight other published plugins were checked to confirm the
+  conventional order puts `version` first. The check still fails on this submission
+  because the comparison reads the same field out of the already published 0.0.1 and
+  0.0.2 packages, which cannot be changed from our side.
 
 Known limits
 
